@@ -4,15 +4,7 @@ import {useRouter} from 'next/router'
 import React, {useEffect} from "react";
 import axios from "axios";
 import productModal from "./fn/productModal";
-import {
-    IconAlertTriangle,
-    IconArrowLeft,
-    IconCheck,
-    IconCheckbox,
-    IconFileInvoice,
-    IconList,
-    IconTrashX
-} from '@tabler/icons';
+import {IconAlertTriangle, IconArrowLeft, IconCheck, IconCheckbox, IconList, IconTrashX} from '@tabler/icons';
 import {closeAllModals, openModal} from '@mantine/modals';
 import preOrdersModal from "./fn/preOrdersModal";
 
@@ -63,7 +55,7 @@ const Home: NextPage = () => {
         return (<>
                 <div style={{height: "30vh", maxHeight: "30vh"}}>
                     <Grid sx={{width: "100vw", height: "30vh", maxHeight: "30vh", border: "solid black"}} columns={4}
-                          radius="md" p="xl" withBorder>
+                          p="xl">
                         <Grid.Col span={1}>
                             <Grid columns={2} style={{height: "100%", width: "100%"}}>
                                 <Grid.Col span={1}>
@@ -98,17 +90,6 @@ const Home: NextPage = () => {
                                             preOrdersModal();
                                         }}>
                                         <IconList/>
-                                    </Button>
-                                </Grid.Col>
-                                <Grid.Col span={1}>
-                                    <Button
-                                        sx={{height: "100%", width: "100%"}}
-                                        size="lg"
-                                        color={"gray"}
-                                        onClick={() => {
-                                            router.push("/internal/logout/")
-                                        }}>
-                                        <IconFileInvoice/>
                                     </Button>
                                 </Grid.Col>
                             </Grid>
