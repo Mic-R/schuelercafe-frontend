@@ -3,10 +3,10 @@ import {Button, Center, Grid, LoadingOverlay, ScrollArea, Text} from '@mantine/c
 import {useRouter} from 'next/router'
 import React, {useEffect} from "react";
 import axios from "axios";
-import productModal from "./fn/productModal";
+import productModal from "../../../fn/productModal";
 import {IconAlertTriangle, IconArrowLeft, IconCheck, IconCheckbox, IconList, IconTrashX} from '@tabler/icons';
 import {closeAllModals, openModal} from '@mantine/modals';
-import preOrdersModal from "./fn/preOrdersModal";
+import preOrdersModal from "../../../fn/preOrdersModal";
 
 const config = require('../../../config.json');
 

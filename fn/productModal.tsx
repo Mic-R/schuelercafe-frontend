@@ -3,7 +3,7 @@ import {closeAllModals, openModal} from '@mantine/modals';
 import {Button, Center, Grid} from "@mantine/core";
 import React from "react";
 
-const config = require('../../../../config.json');
+const config = require('../config.json');
 
 export default async function productModal(category: string, setReceipt: any, setSum: any, receipt: any, sum: any) {
     const cache = await JSON.parse(sessionStorage.getItem('cache') || "{}");

@@ -5,7 +5,7 @@ import React from "react";
 import {IconPlus} from "@tabler/icons";
 import addOrdersModal from "./addOrdersModal";
 
-const config = require('../../../../config.json');
+const config = require('../config.json');
 
 export default async function preOrdersModal() {
     const {data} = await axios.post(config.API_URL + '/preorder/list', {
