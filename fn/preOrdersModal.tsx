@@ -76,7 +76,7 @@ export default async function preOrdersModal() {
                                             closeAllModals();
                                             setTimeout(() => {
                                                 preOrdersModal();
-                                            }, 500);
+                                            }, 750);
                                         }}
                                     >
                                         <Center>
