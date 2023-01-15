@@ -6,7 +6,7 @@ import React from "react";
 const config = require('../config.json');
 
 export default async function productModal(category: string, setReceipt: any, setSum: any, receipt: any, sum: any) {
-    const cache = await JSON.parse(sessionStorage.getItem('cache') || "{}");
+    const cache = await JSON.parse(localStorage.getItem('cache') || "{}");
     let data;
     let catcache = cache[category]
     if (typeof (catcache) === "undefined") {
@@ -15,8 +15,8 @@ export default async function productModal(category: string, setReceipt: any, se
             "token": localStorage.getItem('token')
         }).then(async (response) => {
             data = response.data;
-            await sessionStorage.setItem('cache', JSON.stringify({
-                ...await JSON.parse(await sessionStorage.getItem('cache') || "{}",),
+            await localStorage.setItem('cache', JSON.stringify({
+                ...await JSON.parse(await localStorage.getItem('cache') || "{}",),
                 [category]: data
             }))
         })
