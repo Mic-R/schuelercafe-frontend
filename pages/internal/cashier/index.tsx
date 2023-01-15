@@ -168,7 +168,7 @@ const Home: NextPage = () => {
                                     })
                                 }}
                             >
-                                <IconCheck/>
+                                <IconCheck/> <br/> Einkauf abschließen
                             </Button>
                         </Grid.Col>
                     </Grid>
