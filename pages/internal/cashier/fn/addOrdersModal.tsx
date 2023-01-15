@@ -41,7 +41,7 @@ export default async function addOrdersModal() {
                         hideControls
                         style={{width: "100%", marginBottom: "5%"}}
                         onChange={(value) => {
-                            number = value;
+                            number = value || 0;
                         }}
                     />
                     <TextInput
