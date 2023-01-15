@@ -65,18 +65,21 @@ export default async function preOrdersModal() {
                                                     "token": localStorage.getItem('token'),
                                                     "number": pre.Nummer,
                                                     "status": 1
+                                                }).then(() => {
+                                                    closeAllModals();
+                                                    preOrdersModal();
                                                 })
                                             }
                                             if (status === 1) {
                                                 axios.post(config.API_URL + '/preorder/delete', {
                                                     "token": localStorage.getItem('token'),
                                                     "number": pre.Nummer
-                                                });
+                                                }).then(() => {
+                                                    closeAllModals();
+                                                    preOrdersModal();
+                                                })
                                             }
-                                            closeAllModals();
-                                            setTimeout(() => {
-                                                preOrdersModal();
-                                            }, 750);
+
                                         }}
                                     >
                                         <Center>
