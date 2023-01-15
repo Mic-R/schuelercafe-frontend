@@ -12,9 +12,9 @@ const Home: NextPage = () => {
 
     async function admin() {
         const token = jsonwebtoken.decode(localStorage.getItem('token') || "");
-        if (!token || !token.admin) {
-            router.push("/internal")
-        }
+        // if (!token || !token?.admin) {
+        // router.push("/internal")
+        // }
     }
 
     useEffect(() => {
