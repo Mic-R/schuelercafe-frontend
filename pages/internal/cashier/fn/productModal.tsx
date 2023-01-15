@@ -5,7 +5,7 @@ import React from "react";
 
 const config = require('../../../../config.json');
 
-export default async function productModal(category: string, setReceipt, setSum, receipt, sum) {
+export default async function productModal(category: string, setReceipt: any, setSum: any, receipt: any, sum: any) {
     const cache = await JSON.parse(sessionStorage.getItem('cache') || "{}");
     let data;
     let catcache = cache[category]
