@@ -5,18 +5,18 @@ import React from "react";
 
 const config = require('../config.json');
 
-export default async function productModal(category: string, setReceipt: any, setSum: any, receipt: any, sum: any) {
+export default async function productModal(category: string, setReceipt: any, setSum: any, receipt: any, sum: any, ref: any) {
     const cache = await JSON.parse(localStorage.getItem('cache') || "{}");
     let data;
     let catcache = cache[category]
     if (typeof (catcache) === "undefined") {
         await axios.post(config.API_URL + '/products/itemsbycategory', {
             "category": category,
-            "token": localStorage.getItem('token')
+            "token": sessionStorage.getItem('token')
         }).then(async (response) => {
             data = response.data;
             await localStorage.setItem('cache', JSON.stringify({
-                ...await JSON.parse(await localStorage.getItem('cache') || "{}",),
+                ...await JSON.parse(await localStorage.getItem('cache') || "{}"),
                 [category]: data
             }))
         })
@@ -53,6 +53,7 @@ export default async function productModal(category: string, setReceipt: any, se
                                             setSum(sum + prod.Preis);
                                             setReceipt([...receipt, {name: prod.Name, price: prod.Preis}]);
                                             closeAllModals();
+                                            ref.current.scrollTo({top: ref.current.scrollHeight, behavior: 'smooth'});
                                         }}>
                                         <Center>
                                             {prod.Name} <br/> <br/>{prod.Preis.toFixed(2)}€

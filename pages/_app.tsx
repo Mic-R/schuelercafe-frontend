@@ -8,7 +8,7 @@ import {ModalsProvider} from '@mantine/modals';
 function MyApp({Component, pageProps}: AppProps) {
     const router = useRouter();
     useEffect(() => {
-        if (router.pathname.startsWith("/internal") && !localStorage.getItem('token')) {
+        if (router.pathname.startsWith("/internal") && !sessionStorage.getItem('token')) {
             router.push("/");
         }
     });

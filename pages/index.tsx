@@ -12,7 +12,7 @@ const Home: NextPage = () => {
     const [code, setCode] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     useEffect(() => {
-        if (localStorage.getItem('token')) {
+        if (sessionStorage.getItem('token')) {
             router.push("/internal")
         }
     }, [router]);
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
                                     "code": code
                                 }).then((response) => {
                                     if (response.data.success) {
-                                        localStorage.setItem('token', response.data.token);
+                                        sessionStorage.setItem('token', response.data.token);
                                         router.push("/internal")
                                     } else {
                                         setError("Falscher Code");

@@ -1,19 +1,17 @@
 import axios from "axios";
 import {closeAllModals, openModal} from '@mantine/modals';
-import {Button, NumberInput, TextInput} from "@mantine/core";
+import {Button, NumberInput} from "@mantine/core";
 import React from "react";
 import preOrdersModal from "./preOrdersModal";
-import {IconPlus} from "@tabler/icons";
+import {IconTrashX} from "@tabler/icons";
 
 const config = require('../config.json');
 
-export default async function addOrdersModal() {
+export default async function deleteOrdersModal() {
     const {data} = await axios.post(config.API_URL + '/preorder/list', {
         "token": sessionStorage.getItem('token')
     });
     let number = 0;
-    let product = "";
-    let price = 0.00;
     await openModal({
         title: "Vorbestellungen",
         withCloseButton: true,
@@ -45,39 +43,15 @@ export default async function addOrdersModal() {
                             number = value || 0;
                         }}
                     />
-                    <TextInput
-                        placeholder="Sal. o. Zwieb."
-                        label="Produkt-Name"
-                        size="xl"
-                        withAsterisk
-                        onChange={(value) => {
-                            product = value.target.value;
-                        }}
-                    />
-                    <NumberInput
-                        placeholder="1.50"
-                        label="Preis"
-                        size="xl"
-                        withAsterisk
-                        hideControls
-                        style={{width: "100%", marginBottom: "5%"}}
-                        precision={2}
-                        value={price}
-                        onChange={(value) => {
-                            number = value || 0;
-                            console.log(value);
-                        }}
-                    />
                     <Button
                         style={{height: "15vmax", width: "100%", marginTop: "5%"}}
                         size="lg"
+                        color={"red"}
                         onClick={() => {
-                            if (number > 0 && product.length > 0) {
-                                axios.post(config.API_URL + '/preorder/add', {
+                            if (number > 0) {
+                                axios.post(config.API_URL + '/preorder/delete', {
                                     "token": sessionStorage.getItem('token'),
                                     "number": number,
-                                    "product": product,
-                                    "price": price
                                 }).then(() => {
                                     closeAllModals();
                                     preOrdersModal();
@@ -87,7 +61,7 @@ export default async function addOrdersModal() {
                             }
                         }}
                     >
-                        <IconPlus/>
+                        <IconTrashX/>
                     </Button>
                 </div>
             </div>

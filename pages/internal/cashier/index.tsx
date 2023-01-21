@@ -1,10 +1,10 @@
 import type {NextPage} from 'next'
 import {Button, Center, Grid, LoadingOverlay, ScrollArea, Text} from '@mantine/core';
 import {useRouter} from 'next/router'
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import axios from "axios";
 import productModal from "../../../fn/productModal";
-import {IconAlertTriangle, IconArrowLeft, IconCheck, IconCheckbox, IconList, IconTrashX} from '@tabler/icons';
+import {IconAlertTriangle, IconArrowLeft, IconCheckbox, IconDoorExit, IconList, IconTrashX} from '@tabler/icons';
 import {closeAllModals, openModal} from '@mantine/modals';
 import preOrdersModal from "../../../fn/preOrdersModal";
 
@@ -12,6 +12,7 @@ const config = require('../../../config.json');
 
 
 const Home: NextPage = () => {
+    const viewport = useRef<HTMLDivElement>(null);
     const router = useRouter();
     const [categories, setCategories] = React.useState([]);
     const [receipt, setReceipt] = React.useState([]);
@@ -45,7 +46,7 @@ const Home: NextPage = () => {
 
     useEffect(() => {
         axios.post(config.API_URL + "/products/category", {
-            "token": localStorage.getItem('token')
+            "token": sessionStorage.getItem('token')
         }).then((response) => {
             setCategories(response.data);
         });
@@ -73,7 +74,7 @@ const Home: NextPage = () => {
                                     <Button
                                         sx={{height: "100%", width: "100%"}}
                                         size="lg"
-                                        color={"red"}
+                                        color={"red.9"}
                                         onClick={() => {
                                             setSum(0.00);
                                             setReceipt([]);
@@ -85,11 +86,22 @@ const Home: NextPage = () => {
                                     <Button
                                         sx={{height: "100%", width: "100%"}}
                                         size="lg"
-                                        color={"blue"}
+                                        color={"indigo.5"}
                                         onClick={() => {
                                             preOrdersModal();
                                         }}>
                                         <IconList/>
+                                    </Button>
+                                </Grid.Col>
+                                <Grid.Col span={1}>
+                                    <Button
+                                        sx={{height: "100%", width: "100%"}}
+                                        size="lg"
+                                        color={"red.5"}
+                                        onClick={() => {
+                                            router.push("/internal/logout")
+                                        }}>
+                                        <IconDoorExit/>
                                     </Button>
                                 </Grid.Col>
                             </Grid>
@@ -101,9 +113,9 @@ const Home: NextPage = () => {
                                 </h3>
                             </Center>
                         </Grid.Col>
-                        <Grid.Col span={1} style={{border: "solid black", overflow: "scroll", maxHeight: "100%"}}>
-                            <ScrollArea>
-                                <div style={{overflow: "inherit"}}>
+                        <Grid.Col span={1} style={{border: "solid black", overflow: "show", maxHeight: "100%"}}>
+                            <ScrollArea viewportRef={viewport} sx={{height: "100%"}}>
+                                <div style={{overflow: "show"}}>
                                     <h3 style={{color: "black"}}>Rechnung</h3>
                                     <Grid columns={3} style={{width: "95%"}}>
                                         {
@@ -130,7 +142,7 @@ const Home: NextPage = () => {
                                 color={"green"}
                                 onClick={() => {
                                     axios.post(config.API_URL + "/purchase/add", {
-                                        "token": localStorage.getItem('token'),
+                                        "token": sessionStorage.getItem('token'),
                                         "products": receipt
                                     }).then((response) => {
                                         if (receipt.length > 0) {
@@ -168,7 +180,7 @@ const Home: NextPage = () => {
                                     })
                                 }}
                             >
-                                <IconCheck/> <br/> Einkauf abschließen
+                                Einkauf abschließen
                             </Button>
                         </Grid.Col>
                     </Grid>
@@ -184,7 +196,7 @@ const Home: NextPage = () => {
                                             key={category}
                                             size="lg"
                                             onClick={() => {
-                                                productModal(category, setReceipt, setSum, receipt, sum)
+                                                productModal(category, setReceipt, setSum, receipt, sum, viewport)
                                             }}>
                                             {category}
                                         </Button>

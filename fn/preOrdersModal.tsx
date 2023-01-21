@@ -2,14 +2,15 @@ import axios from "axios";
 import {closeAllModals, openModal} from '@mantine/modals';
 import {Button, Center, Grid} from "@mantine/core";
 import React from "react";
-import {IconPlus} from "@tabler/icons";
+import {IconPlus, IconTrashX} from "@tabler/icons";
 import addOrdersModal from "./addOrdersModal";
+import deleteOrdersModal from "./deleteOrdersModal";
 
 const config = require('../config.json');
 
 export default async function preOrdersModal() {
     const {data} = await axios.post(config.API_URL + '/preorder/list', {
-        "token": localStorage.getItem('token')
+        "token": sessionStorage.getItem('token')
     });
     await openModal({
         title: "Vorbestellungen",
@@ -42,6 +43,19 @@ export default async function preOrdersModal() {
                             <IconPlus/>
                         </Button>
                     </Grid.Col>
+                    <Grid.Col span={4}>
+                        <Button
+                            sx={{height: "15vmax", width: "100%"}}
+                            size="lg"
+                            color={"red"}
+                            onClick={() => {
+                                closeAllModals();
+                                deleteOrdersModal();
+                            }}
+                        >
+                            <IconTrashX/>
+                        </Button>
+                    </Grid.Col>
                     {
                         data.map((pre: any) => {
                             let color;
@@ -50,7 +64,6 @@ export default async function preOrdersModal() {
                             } else if (pre.Status === 1) {
                                 color = "yellow";
                             }
-                            console.log(color)
                             return (
                                 <Grid.Col span={4} key={pre.Nummer}>
                                     <Button
@@ -62,7 +75,7 @@ export default async function preOrdersModal() {
                                             let status = pre.Status;
                                             if (status === 0) {
                                                 axios.post(config.API_URL + '/preorder/update', {
-                                                    "token": localStorage.getItem('token'),
+                                                    "token": sessionStorage.getItem('token'),
                                                     "number": pre.Nummer,
                                                     "status": 1
                                                 }).then(() => {
@@ -72,7 +85,7 @@ export default async function preOrdersModal() {
                                             }
                                             if (status === 1) {
                                                 axios.post(config.API_URL + '/preorder/delete', {
-                                                    "token": localStorage.getItem('token'),
+                                                    "token": sessionStorage.getItem('token'),
                                                     "number": pre.Nummer
                                                 }).then(() => {
                                                     closeAllModals();
