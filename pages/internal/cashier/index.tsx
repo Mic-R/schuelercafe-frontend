@@ -4,7 +4,16 @@ import {useRouter} from 'next/router'
 import React, {useEffect, useRef} from "react";
 import axios from "axios";
 import productModal from "../../../fn/productModal";
-import {IconAlertTriangle, IconArrowLeft, IconCheckbox, IconDoorExit, IconList, IconTrashX} from '@tabler/icons';
+import {
+    IconAlertTriangle,
+    IconArrowBack,
+    IconArrowLeft,
+    IconCheck,
+    IconCheckbox,
+    IconDoorExit,
+    IconList,
+    IconTrashX
+} from '@tabler/icons';
 import {closeAllModals, openModal} from '@mantine/modals';
 import preOrdersModal from "../../../fn/preOrdersModal";
 
@@ -55,19 +64,20 @@ const Home: NextPage = () => {
 
     if (categories.length > 0) {
         return (<>
-                <div style={{height: "30vh", maxHeight: "30vh"}}>
-                    <Grid sx={{width: "100vw", height: "30vh", maxHeight: "30vh", border: "solid black"}} columns={8}
-                          p="xl">
-                        <Grid.Col span={3}>
-                            <Grid columns={2} style={{height: "100%", width: "100%"}}>
-                                <Grid.Col span={1}>
-                                    <Button
-                                        sx={{height: "100%", width: "100%"}}
-                                        size="lg"
-                                        color={"gray"}
-                                        onClick={() => {
-                                            router.push("/internal/")
-                                        }}>
+            <div style={{height: "35vh", maxHeight: "35vh", width: "100vw"}}>
+                <Grid sx={{width: "100vw", height: "35vh", maxHeight: "35vh", border: "solid black"}} columns={8}
+                      p="xl">
+                    <Grid.Col span={3}>
+                        <Grid columns={2} style={{height: "100%", width: "100%"}}>
+                            <Grid.Col span={1}>
+                                <Button
+                                    sx={{height: "100%", width: "100%"}}
+                                    size="lg"
+                                    color={"gray"}
+                                    compact
+                                    onClick={() => {
+                                        router.push("/internal/")
+                                    }}>
                                         <IconArrowLeft/>
                                     </Button>
                                 </Grid.Col>
@@ -76,6 +86,7 @@ const Home: NextPage = () => {
                                         sx={{height: "100%", width: "100%"}}
                                         size="lg"
                                         color={"red.9"}
+                                        compact
                                         onClick={() => {
                                             setSum(0.00);
                                             setReceipt([]);
@@ -90,9 +101,11 @@ const Home: NextPage = () => {
                                         sx={{height: "100%", width: "100%"}}
                                         size="lg"
                                         color={"indigo.5"}
+                                        compact
                                         onClick={() => {
                                             preOrdersModal();
-                                        }}>
+                                        }}
+                                    >
                                         <IconList/>
                                     </Button>
                                 </Grid.Col>
@@ -101,6 +114,7 @@ const Home: NextPage = () => {
                                         sx={{height: "100%", width: "100%"}}
                                         size="lg"
                                         color={"red.5"}
+                                        compact
                                         onClick={() => {
                                             router.push("/internal/logout")
                                         }}>
@@ -121,24 +135,27 @@ const Home: NextPage = () => {
                                 <Grid.Col span={1}>
                                     <Center style={{height: "100%"}}>
                                         <Chip checked={refund} disabled={!refundable}
-                                              onChange={() => setRefund((v) => !v)}>
-                                            Rückerstattung
+                                              size="xl"
+                                              onChange={() => setRefund((v) => !v)}
+                                              styles={{iconWrapper: {display: "none"}}}
+                                        >
+                                            <IconArrowBack/>
                                         </Chip>
                                     </Center>
                                 </Grid.Col>
                             </Grid>
                         </Grid.Col>
-                        <Grid.Col span={1} style={{overflow: "show", maxHeight: "100%"}}>
-                            <Paper style={{height: "100%"}} shadow="sm" p="md" withBorder>
-                                <ScrollArea viewportRef={viewport} sx={{height: "100%"}}>
-                                    <div style={{overflow: "show"}}>
-                                        <h3 style={{color: "black"}}>Rechnung</h3>
-                                        <Grid columns={3} style={{width: "95%"}}>
-                                            {receipt.map((item: any) => {
-                                                return (<>
-                                                    <Grid.Col span={2}><Text style={{
-                                                        color: "black", wordWrap: "break-word"
-                                                    }}>{item.name}</Text></Grid.Col>
+                    <Grid.Col span={3} style={{overflow: "show", maxHeight: "100%"}}>
+                        <Paper style={{height: "100%"}} shadow="sm" p="md" withBorder>
+                            <ScrollArea viewportRef={viewport} sx={{height: "100%"}}>
+                                <div style={{overflow: "show"}}>
+                                    <h3 style={{color: "black"}}>Rechnung</h3>
+                                    <Grid columns={3} style={{width: "95%"}}>
+                                        {receipt.map((item: any) => {
+                                            return (<>
+                                                <Grid.Col span={2}><Text style={{
+                                                    color: "black", wordWrap: "break-word"
+                                                }}>{item.name}</Text></Grid.Col>
                                                     <Grid.Col span={1}><Text
                                                         style={{color: "black"}}>{item.price.toFixed(2)}€</Text></Grid.Col>
                                                 </>)
@@ -152,6 +169,7 @@ const Home: NextPage = () => {
                             <Button
                                 sx={{height: "100%", width: "100%"}}
                                 color={"green"}
+                                compact
                                 onClick={() => {
                                     axios.post(config.API_URL + "/purchase/add", {
                                         "token": sessionStorage.getItem('token'), "products": receipt
@@ -191,7 +209,7 @@ const Home: NextPage = () => {
                                     })
                                 }}
                             >
-                                Einkauf abschließen
+                                <IconCheck/>
                             </Button>
                         </Grid.Col>
                     </Grid>

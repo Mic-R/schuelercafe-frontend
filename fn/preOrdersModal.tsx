@@ -12,6 +12,9 @@ export default async function preOrdersModal() {
     const {data} = await axios.post(config.API_URL + '/preorder/list', {
         "token": sessionStorage.getItem('token')
     });
+    data.sort(function (a: any, b: any) {
+        return parseFloat(a.Nummer) - parseFloat(b.Nummer);
+    });
 
     await openModal({
         title: "Vorbestellungen",
@@ -58,6 +61,7 @@ export default async function preOrdersModal() {
                         </Button>
                     </Grid.Col>
                     {
+                        //sort data by numbers
                         data.map((pre: any) => {
                             let color;
                             if (pre.Status === 0) {

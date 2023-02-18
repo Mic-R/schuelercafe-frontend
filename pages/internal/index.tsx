@@ -48,6 +48,7 @@ const Home: NextPage = () => {
                                     onClick={() => {
                                         router.push("/internal/admin")
                                     }}
+                                    disabled
                             >
                                 Admin
                             </Button>

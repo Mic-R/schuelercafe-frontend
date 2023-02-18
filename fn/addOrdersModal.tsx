@@ -5,10 +5,6 @@ import React from "react";
 import preOrdersModal from "./preOrdersModal";
 import {IconPlus} from "@tabler/icons";
 
-//TODO
-//
-// 1. fix calculation of price
-
 const config = require('../config.json');
 
 export default async function addOrdersModal() {
