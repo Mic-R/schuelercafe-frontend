@@ -5,7 +5,7 @@ import React from "react";
 
 const config = require('../config.json');
 
-export default async function productModal(category: string, setReceipt: any, setSum: any, receipt: any, sum: any, ref: any) {
+export default async function productModal(category: string, setReceipt: any, setSum: any, receipt: any, sum: any, ref: any, refund: boolean, setRefundable: any) {
     const cache = await JSON.parse(localStorage.getItem('cache') || "{}");
     let data;
     let catcache = cache[category]
@@ -50,7 +50,13 @@ export default async function productModal(category: string, setReceipt: any, se
                                         key={prod.Name}
                                         size="lg"
                                         onClick={() => {
-                                            setSum(sum + prod.Preis);
+                                            if (refund) {
+                                                setSum((sum + prod.Preis) * (-1));
+                                                setRefundable(false);
+                                            } else {
+                                                setSum(sum + prod.Preis);
+                                                setRefundable(false);
+                                            }
                                             setReceipt([...receipt, {name: prod.Name, price: prod.Preis}]);
                                             closeAllModals();
                                             ref.current.scrollTo({top: ref.current.scrollHeight, behavior: 'smooth'});

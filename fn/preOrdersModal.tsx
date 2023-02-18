@@ -8,10 +8,11 @@ import deleteOrdersModal from "./deleteOrdersModal";
 
 const config = require('../config.json');
 
-export default async function preOrdersModal() {
+export default async function preOrdersModal(tempprice: any, setTempprice: any) {
     const {data} = await axios.post(config.API_URL + '/preorder/list', {
         "token": sessionStorage.getItem('token')
     });
+
     await openModal({
         title: "Vorbestellungen",
         withCloseButton: true,
@@ -37,7 +38,7 @@ export default async function preOrdersModal() {
                             size="lg"
                             onClick={() => {
                                 closeAllModals();
-                                addOrdersModal();
+                                addOrdersModal(tempprice, setTempprice);
                             }}
                         >
                             <IconPlus/>
@@ -50,7 +51,7 @@ export default async function preOrdersModal() {
                             color={"red"}
                             onClick={() => {
                                 closeAllModals();
-                                deleteOrdersModal();
+                                deleteOrdersModal(tempprice, setTempprice);
                             }}
                         >
                             <IconTrashX/>
@@ -80,7 +81,7 @@ export default async function preOrdersModal() {
                                                     "status": 1
                                                 }).then(() => {
                                                     closeAllModals();
-                                                    preOrdersModal();
+                                                    preOrdersModal(tempprice, setTempprice);
                                                 })
                                             }
                                             if (status === 1) {
@@ -89,7 +90,7 @@ export default async function preOrdersModal() {
                                                     "number": pre.Nummer
                                                 }).then(() => {
                                                     closeAllModals();
-                                                    preOrdersModal();
+                                                    preOrdersModal(tempprice, setTempprice);
                                                 })
                                             }
 

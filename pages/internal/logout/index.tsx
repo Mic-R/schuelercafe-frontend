@@ -18,7 +18,7 @@ const Home: NextPage = () => {
                             <Text>Ich bestätige, dass ich...</Text>
                             <List.Item>die Kasse abgesperrt habe.</List.Item>
                             <List.Item>die Kasse zurückgebracht habe.</List.Item>
-                            <List.Item>das Kaffee aufgeräumt habe.</List.Item>
+                            <List.Item>das Café aufgeräumt habe.</List.Item>
                             <List.Item>alle Produkte verräumt habe.</List.Item>
                         </List>
                     </Center>
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
                         <Grid.Col span={1}>
                             <Center>
                                 <Button leftIcon={<IconArrowBack/>} variant="light" onClick={() => {
-                                    router.push("/")
+                                    router.push("/internal/cashier")
                                 }}>
                                     Abbrechen
                                 </Button>

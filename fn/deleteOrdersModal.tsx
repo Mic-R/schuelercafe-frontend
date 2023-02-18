@@ -7,7 +7,7 @@ import {IconTrashX} from "@tabler/icons";
 
 const config = require('../config.json');
 
-export default async function deleteOrdersModal() {
+export default async function deleteOrdersModal(tempprice: any, setTempprice: any) {
     const {data} = await axios.post(config.API_URL + '/preorder/list', {
         "token": sessionStorage.getItem('token')
     });
@@ -25,7 +25,7 @@ export default async function deleteOrdersModal() {
                         style={{width: "100%", height: "100%"}}
                         onClick={() => {
                             closeAllModals();
-                            preOrdersModal();
+                            preOrdersModal(tempprice, setTempprice);
                         }}
                     >
                         &lt; Zurück
@@ -54,7 +54,7 @@ export default async function deleteOrdersModal() {
                                     "number": number,
                                 }).then(() => {
                                     closeAllModals();
-                                    preOrdersModal();
+                                    preOrdersModal(tempprice, setTempprice);
                                 });
                             } else {
                                 alert("Bitte fülle alle Felder aus!");

@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import {Button, Center, Grid, LoadingOverlay, ScrollArea, Text} from '@mantine/core';
+import {Button, Center, Chip, Grid, LoadingOverlay, Paper, ScrollArea, Text} from '@mantine/core';
 import {useRouter} from 'next/router'
 import React, {useEffect, useRef} from "react";
 import axios from "axios";
@@ -17,6 +17,9 @@ const Home: NextPage = () => {
     const [categories, setCategories] = React.useState([]);
     const [receipt, setReceipt] = React.useState([]);
     const [sum, setSum] = React.useState(0.00);
+    const [refund, setRefund] = React.useState(false);
+    const [refundable, setRefundable] = React.useState(true);
+    const [tempprice, setTempprice] = React.useState(0.00);
 
     const customLoader = (
         <svg
@@ -78,6 +81,8 @@ const Home: NextPage = () => {
                                         onClick={() => {
                                             setSum(0.00);
                                             setReceipt([]);
+                                            setRefund(false);
+                                            setRefundable(true);
                                         }}>
                                         <IconTrashX/>
                                     </Button>
@@ -88,7 +93,7 @@ const Home: NextPage = () => {
                                         size="lg"
                                         color={"indigo.5"}
                                         onClick={() => {
-                                            preOrdersModal();
+                                            preOrdersModal(tempprice, setTempprice);
                                         }}>
                                         <IconList/>
                                     </Button>
@@ -107,34 +112,45 @@ const Home: NextPage = () => {
                             </Grid>
                         </Grid.Col>
                         <Grid.Col span={1}>
-                            <Center style={{height: "100%"}}>
-                                <h3 style={{color: "black"}}>
-                                    {sum.toFixed(2)}€
-                                </h3>
-                            </Center>
+                            <Grid columns={1} style={{height: "100%", width: "100%"}}>
+                                <Grid.Col span={1}>
+                                    <Center style={{height: "100%"}}>
+                                        <h3 style={{color: "black"}}>
+                                            {sum.toFixed(2)}€
+                                        </h3>
+                                    </Center>
+                                </Grid.Col>
+                                <Grid.Col span={1}>
+                                    <Chip checked={refund} disabled={!refundable} onChange={() => setRefund((v) => !v)}>
+                                        Rückerstattung
+                                    </Chip>
+                                </Grid.Col>
+                            </Grid>
                         </Grid.Col>
-                        <Grid.Col span={1} style={{border: "solid black", overflow: "show", maxHeight: "100%"}}>
-                            <ScrollArea viewportRef={viewport} sx={{height: "100%"}}>
-                                <div style={{overflow: "show"}}>
-                                    <h3 style={{color: "black"}}>Rechnung</h3>
-                                    <Grid columns={3} style={{width: "95%"}}>
-                                        {
-                                            receipt.map((item: any) => {
-                                                return (
-                                                    <>
-                                                        <Grid.Col span={2}><Text style={{
-                                                            color: "black",
+                        <Grid.Col span={1} style={{overflow: "show", maxHeight: "100%"}}>
+                            <Paper style={{height: "100%"}} shadow="sm" p="md" withBorder>
+                                <ScrollArea viewportRef={viewport} sx={{height: "100%"}}>
+                                    <div style={{overflow: "show"}}>
+                                        <h3 style={{color: "black"}}>Rechnung</h3>
+                                        <Grid columns={3} style={{width: "95%"}}>
+                                            {
+                                                receipt.map((item: any) => {
+                                                    return (
+                                                        <>
+                                                            <Grid.Col span={2}><Text style={{
+                                                                color: "black",
                                                             wordWrap: "break-word"
-                                                        }}>{item.name}</Text></Grid.Col>
-                                                        <Grid.Col span={1}><Text
-                                                            style={{color: "black"}}>{item.price.toFixed(2)}€</Text></Grid.Col>
-                                                    </>
-                                                )
-                                            })
-                                        }
-                                    </Grid>
-                                </div>
-                            </ScrollArea>
+                                                            }}>{item.name}</Text></Grid.Col>
+                                                            <Grid.Col span={1}><Text
+                                                                style={{color: "black"}}>{item.price.toFixed(2)}€</Text></Grid.Col>
+                                                        </>
+                                                    )
+                                                })
+                                            }
+                                        </Grid>
+                                    </div>
+                                </ScrollArea>
+                            </Paper>
                         </Grid.Col>
                         <Grid.Col span={1}>
                             <Button
@@ -196,7 +212,7 @@ const Home: NextPage = () => {
                                             key={category}
                                             size="lg"
                                             onClick={() => {
-                                                productModal(category, setReceipt, setSum, receipt, sum, viewport)
+                                                productModal(category, setReceipt, setSum, receipt, sum, viewport, refund, setRefundable)
                                             }}>
                                             {category}
                                         </Button>
