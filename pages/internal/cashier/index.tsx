@@ -21,18 +21,17 @@ const Home: NextPage = () => {
     const [refundable, setRefundable] = React.useState(true);
     const [tempprice, setTempprice] = React.useState(0.00);
 
-    const customLoader = (
-        <svg
-            width="54"
-            height="54"
-            viewBox="0 0 38 38"
-            xmlns="http://www.w3.org/2000/svg"
-            stroke={"blue"}
-        >
-            <g fill="none" fillRule="evenodd">
-                <g transform="translate(1 1)" strokeWidth="2">
-                    <circle strokeOpacity=".5" cx="18" cy="18" r="18"/>
-                    <path d="M36 18c0-9.94-8.06-18-18-18">
+    const customLoader = (<svg
+        width="54"
+        height="54"
+        viewBox="0 0 38 38"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke={"blue"}
+    >
+        <g fill="none" fillRule="evenodd">
+            <g transform="translate(1 1)" strokeWidth="2">
+                <circle strokeOpacity=".5" cx="18" cy="18" r="18"/>
+                <path d="M36 18c0-9.94-8.06-18-18-18">
                         <animateTransform
                             attributeName="transform"
                             type="rotate"
@@ -41,11 +40,10 @@ const Home: NextPage = () => {
                             dur="1s"
                             repeatCount="indefinite"
                         />
-                    </path>
-                </g>
+                </path>
             </g>
-        </svg>
-    );
+        </g>
+    </svg>);
 
     useEffect(() => {
         axios.post(config.API_URL + "/products/category", {
@@ -58,9 +56,9 @@ const Home: NextPage = () => {
     if (categories.length > 0) {
         return (<>
                 <div style={{height: "30vh", maxHeight: "30vh"}}>
-                    <Grid sx={{width: "100vw", height: "30vh", maxHeight: "30vh", border: "solid black"}} columns={4}
+                    <Grid sx={{width: "100vw", height: "30vh", maxHeight: "30vh", border: "solid black"}} columns={8}
                           p="xl">
-                        <Grid.Col span={1}>
+                        <Grid.Col span={3}>
                             <Grid columns={2} style={{height: "100%", width: "100%"}}>
                                 <Grid.Col span={1}>
                                     <Button
@@ -93,7 +91,7 @@ const Home: NextPage = () => {
                                         size="lg"
                                         color={"indigo.5"}
                                         onClick={() => {
-                                            preOrdersModal(tempprice, setTempprice);
+                                            preOrdersModal();
                                         }}>
                                         <IconList/>
                                     </Button>
@@ -121,9 +119,12 @@ const Home: NextPage = () => {
                                     </Center>
                                 </Grid.Col>
                                 <Grid.Col span={1}>
-                                    <Chip checked={refund} disabled={!refundable} onChange={() => setRefund((v) => !v)}>
-                                        Rückerstattung
-                                    </Chip>
+                                    <Center style={{height: "100%"}}>
+                                        <Chip checked={refund} disabled={!refundable}
+                                              onChange={() => setRefund((v) => !v)}>
+                                            Rückerstattung
+                                        </Chip>
+                                    </Center>
                                 </Grid.Col>
                             </Grid>
                         </Grid.Col>
@@ -133,20 +134,15 @@ const Home: NextPage = () => {
                                     <div style={{overflow: "show"}}>
                                         <h3 style={{color: "black"}}>Rechnung</h3>
                                         <Grid columns={3} style={{width: "95%"}}>
-                                            {
-                                                receipt.map((item: any) => {
-                                                    return (
-                                                        <>
-                                                            <Grid.Col span={2}><Text style={{
-                                                                color: "black",
-                                                            wordWrap: "break-word"
-                                                            }}>{item.name}</Text></Grid.Col>
-                                                            <Grid.Col span={1}><Text
-                                                                style={{color: "black"}}>{item.price.toFixed(2)}€</Text></Grid.Col>
-                                                        </>
-                                                    )
-                                                })
-                                            }
+                                            {receipt.map((item: any) => {
+                                                return (<>
+                                                    <Grid.Col span={2}><Text style={{
+                                                        color: "black", wordWrap: "break-word"
+                                                    }}>{item.name}</Text></Grid.Col>
+                                                    <Grid.Col span={1}><Text
+                                                        style={{color: "black"}}>{item.price.toFixed(2)}€</Text></Grid.Col>
+                                                </>)
+                                            })}
                                         </Grid>
                                     </div>
                                 </ScrollArea>
@@ -158,8 +154,7 @@ const Home: NextPage = () => {
                                 color={"green"}
                                 onClick={() => {
                                     axios.post(config.API_URL + "/purchase/add", {
-                                        "token": sessionStorage.getItem('token'),
-                                        "products": receipt
+                                        "token": sessionStorage.getItem('token'), "products": receipt
                                     }).then((response) => {
                                         if (receipt.length > 0) {
                                             if (response.data.success) {
@@ -203,26 +198,22 @@ const Home: NextPage = () => {
                 </div>
                 <Center style={{height: "60vh", width: "100vw"}}>
                     <Grid sx={{width: "80vw", height: "60vh"}}>
-                        {
-                            categories.map((category: any) => {
-                                return (
-                                    <Grid.Col span={4} key={category}>
-                                        <Button
-                                            sx={{height: "100%", width: "100%"}}
-                                            key={category}
-                                            size="lg"
-                                            onClick={() => {
-                                                productModal(category, setReceipt, setSum, receipt, sum, viewport, refund, setRefundable)
-                                            }}>
-                                            {category}
-                                        </Button>
-                                    </Grid.Col>)
-                            })
-                        }
+                        {categories.map((category: any) => {
+                            return (<Grid.Col span={4} key={category}>
+                                <Button
+                                    sx={{height: "100%", width: "100%"}}
+                                    key={category}
+                                    size="lg"
+                                    onClick={() => {
+                                        productModal(category, setReceipt, setSum, receipt, sum, viewport, refund, setRefundable)
+                                    }}>
+                                    {category}
+                                </Button>
+                            </Grid.Col>)
+                        })}
                     </Grid>
                 </Center>
-            </>
-        )
+        </>)
     } else {
         return (<div>
             <LoadingOverlay loader={customLoader} visible/>;

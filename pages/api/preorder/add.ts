@@ -14,7 +14,7 @@ export default async function handler(request: any, res: any) {
             "Nummer": request.body.number,
             "Produkt": request.body.product,
             "Status": 0,
-            "Preis": request.body.price
+            "Preis": parseFloat(request.body.price)
         });
         res.send({success: true});
     } else {

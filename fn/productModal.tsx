@@ -51,7 +51,7 @@ export default async function productModal(category: string, setReceipt: any, se
                                         size="lg"
                                         onClick={() => {
                                             if (refund) {
-                                                setSum((sum + prod.Preis) * (-1));
+                                                setSum(sum - prod.Preis);
                                                 setRefundable(false);
                                             } else {
                                                 setSum(sum + prod.Preis);

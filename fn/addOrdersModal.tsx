@@ -1,6 +1,6 @@
 import axios from "axios";
 import {closeAllModals, openModal} from '@mantine/modals';
-import {Autocomplete, Button, NumberInput, Paper, Text} from "@mantine/core";
+import {Autocomplete, Button, NumberInput} from "@mantine/core";
 import React from "react";
 import preOrdersModal from "./preOrdersModal";
 import {IconPlus} from "@tabler/icons";
@@ -11,7 +11,7 @@ import {IconPlus} from "@tabler/icons";
 
 const config = require('../config.json');
 
-export default async function addOrdersModal(tempprice: any, setTempprice: any) {
+export default async function addOrdersModal() {
     const {data} = await axios.post(config.API_URL + '/preorder/list', {
         "token": sessionStorage.getItem('token')
     });
@@ -56,7 +56,7 @@ export default async function addOrdersModal(tempprice: any, setTempprice: any) 
                             style={{width: "100%", height: "100%"}}
                             onClick={() => {
                                 closeAllModals();
-                                preOrdersModal(tempprice, setTempprice);
+                                preOrdersModal();
                             }}
                         >
                             &lt; Zurück
@@ -81,18 +81,11 @@ export default async function addOrdersModal(tempprice: any, setTempprice: any) 
                             withAsterisk
                             style={{width: "100%", marginBottom: "1vh"}}
                             onItemSubmit={(value) => {
-                                product = value.value || "";
-                                let tempdat = options.filter((option: any) => option.value === value.value)[0];
-                                setTempprice(tempdat.price);
-                                console.log(tempprice)
+                                product = value.name || "";
+                                price = value.price.toPrecision(2) || 0;
                             }}
                             data={options}
                         />
-                        <Paper shadow="sm" p="md">
-                            <Text size="xl" weight={500} style={{marginBottom: 10}}>
-                                Preis: {tempprice}€
-                            </Text>
-                        </Paper>
                         <Button
                             style={{height: "10vmax", width: "100%", marginTop: "5%"}}
                             size="lg"
@@ -105,8 +98,12 @@ export default async function addOrdersModal(tempprice: any, setTempprice: any) 
                                         "price": price
                                     }).then(() => {
                                         closeAllModals();
-                                        preOrdersModal(tempprice, setTempprice);
+                                        preOrdersModal();
                                     });
+                                    axios.post(config.API_URL + "/purchase/add", {
+                                        "token": sessionStorage.getItem('token'),
+                                        "products": [{name: product, price: price}]
+                                    })
                                 } else {
                                     alert("Bitte fülle alle Felder aus!");
                                 }
