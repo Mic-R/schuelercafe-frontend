@@ -45,7 +45,7 @@ const Home: NextPage = () => {
                         </Grid.Col>
                     </Grid>
                     <div>
-                        <Button rightIcon={<IconDoorExit/>} color="red" variant="light" style={{width: "100%"}} compact
+                        <Button rightIcon={<IconDoorExit/>} color="gray" variant="light" style={{width: "100%"}} compact
                                 onClick={() => {
                                     localStorage.clear();
                                     router.push("/internal/cashier")
