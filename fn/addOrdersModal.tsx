@@ -19,15 +19,15 @@ export default async function addOrdersModal() {
 
     //cache
     async function cache() {
-        const cache = await JSON.parse(localStorage.getItem('cache') || "{}");
+        const cache = await JSON.parse(sessionStorage.getItem('cache') || "{}");
         let catcache = cache["preorderoptions"]
         if (typeof (catcache) === "undefined" || catcache === "null") {
             await axios.post(config.API_URL + '/preorder/autocomplete', {
                 "token": sessionStorage.getItem('token')
             }).then(async (response) => {
                 options = response.data.options;
-                await localStorage.setItem('cache', JSON.stringify({
-                    ...await JSON.parse(await localStorage.getItem('cache') || "{}"),
+                await sessionStorage.setItem('cache', JSON.stringify({
+                    ...await JSON.parse(await sessionStorage.getItem('cache') || "{}"),
                     ["preorderoptions"]: options
                 }))
             })

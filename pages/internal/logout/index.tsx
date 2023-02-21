@@ -36,7 +36,6 @@ const Home: NextPage = () => {
                             <Center>
                                 <Button rightIcon={<IconDoorExit/>} color="red" variant="light" onClick={() => {
                                     sessionStorage.clear();
-                                    localStorage.clear();
                                     router.push("/")
                                 }}>
                                     Ausloggen
@@ -47,7 +46,7 @@ const Home: NextPage = () => {
                     <div>
                         <Button color="gray" variant="light" style={{width: "100%", marginTop: "10%"}} compact
                                 onClick={() => {
-                                    localStorage.clear();
+                                    sessionStorage.clear();
                                     router.push("/internal/cashier")
                                 }}>
                             Cache leeren

@@ -65,7 +65,8 @@ const Home: NextPage = () => {
     if (categories.length > 0) {
         return (<>
             <div style={{height: "35vh", maxHeight: "35vh", width: "100vw"}}>
-                <Grid sx={{width: "100vw", height: "35vh", maxHeight: "35vh", border: "solid black"}} columns={8}
+                <Grid sx={{width: "100vw", height: "35vh", maxHeight: "35vh", border: "solid black", margin: 0}}
+                      columns={8}
                       p="xl">
                     <Grid.Col span={3}>
                         <Grid columns={2} style={{height: "100%", width: "100%"}}>

@@ -11,7 +11,7 @@ const Home: NextPage = () => {
     const router = useRouter();
 
     async function admin() {
-        const token = jsonwebtoken.decode(localStorage.getItem('token') || "");
+        const token = jsonwebtoken.decode(sessionStorage.getItem('token') || "");
         // if (!token || !token?.admin) {
         // router.push("/internal")
         // }
