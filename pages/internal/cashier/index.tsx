@@ -184,6 +184,8 @@ const Home: NextPage = () => {
                                                     children: (<IconCheckbox style={{width: "100%"}} size={"100%"}
                                                                              color={"green"}/>),
                                                 });
+                                                setRefundable(true);
+                                                setRefund(false);
                                                 setTimeout(() => {
                                                     closeAllModals();
                                                 }, 500);
